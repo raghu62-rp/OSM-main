@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Login from './Login';
 
-const Header = ({ cartItemCount, onCartClick, onTrackOrderClick }) => {
+const Header = ({ cartItemCount, onCartClick, onTrackOrderClick, onProfileClick }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [user, setUser] = useState(null);
 
@@ -36,9 +36,14 @@ const Header = ({ cartItemCount, onCartClick, onTrackOrderClick }) => {
             <a href="#about" className="nav-link">About</a>
             <a href="#contact" className="nav-link">Contact</a>
             {user && (
-              <button className="nav-link track-order-link" onClick={onTrackOrderClick}>
-                📦 Track Order
-              </button>
+              <>
+                <button className="nav-link track-order-link" onClick={onTrackOrderClick}>
+                  📦 Track Order
+                </button>
+                <button className="nav-link profile-link" onClick={onProfileClick}>
+                  👤 Profile
+                </button>
+              </>
             )}
             
             <button className="cart-btn" onClick={onCartClick}>

@@ -127,6 +127,35 @@ const Receipt = ({ orderData, onClose, onDownload, onTrackOrder }) => {
 
           <div className="receipt-divider"></div>
 
+          <div className="delivery-address-section">
+            <h4>📍 Delivery Address</h4>
+            <div className="address-details">
+              {orderData.shippingAddress?.fullName && (
+                <p><strong>{orderData.shippingAddress.fullName}</strong></p>
+              )}
+              {orderData.shippingAddress?.phone && (
+                <p>📱 {orderData.shippingAddress.phone}</p>
+              )}
+              {orderData.shippingAddress?.email && (
+                <p>📧 {orderData.shippingAddress.email}</p>
+              )}
+              {orderData.shippingAddress?.addressLine && (
+                <p>{orderData.shippingAddress.addressLine}</p>
+              )}
+              {orderData.shippingAddress?.city && orderData.shippingAddress?.state && (
+                <p>{orderData.shippingAddress.city}, {orderData.shippingAddress.state}</p>
+              )}
+              {orderData.shippingAddress?.pincode && (
+                <p>PIN: {orderData.shippingAddress.pincode}</p>
+              )}
+              {orderData.shippingAddress?.country && (
+                <p>{orderData.shippingAddress.country}</p>
+              )}
+            </div>
+          </div>
+
+          <div className="receipt-divider"></div>
+
           <div className="receipt-footer">
             <div className="contact-info">
               <h4>Customer Support</h4>

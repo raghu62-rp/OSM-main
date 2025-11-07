@@ -155,6 +155,34 @@
   margin-top: 20px;
 }
 
+.delivery-address-section {
+  margin: 20px 0;
+  background: #e3f2fd;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.delivery-address-section h4 {
+  margin: 0 0 10px 0;
+  color: #667eea;
+  font-size: 1.1rem;
+}
+
+.address-details {
+  color: #333;
+}
+
+.address-details p {
+  margin: 5px 0;
+  line-height: 1.6;
+}
+
+.address-details strong {
+  color: #667eea;
+  font-size: 1.05rem;
+}
+
 .contact-info {
   background: #f9f9f9;
   padding: 15px;

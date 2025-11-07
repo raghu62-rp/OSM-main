@@ -11,6 +11,7 @@ import CartModal from './components/CartModal.jsx';
 import Checkout from './components/Checkout.jsx';
 import Receipt from './components/Receipt.jsx';
 import OrderTracking from './components/OrderTracking.jsx';
+import Profile from './components/Profile.jsx';
 import Footer from './components/Footer.jsx';
 import { API_BASE_URL } from './config.js';
 import { mockProducts } from './mockData.jsx';
@@ -27,6 +28,7 @@ function App() {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [isReceiptOpen, setIsReceiptOpen] = useState(false);
   const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
   const [apiHealthy, setApiHealthy] = useState(null);
 
@@ -141,7 +143,7 @@ function App() {
   };
 
   // Handle checkout
-  const handleCheckout = async (paymentMethod = 'UPI') => {
+  const handleCheckout = async (paymentMethod = 'UPI', customerAddress = null) => {
     try {
       // Check if we need authentication
       const token = localStorage.getItem('token');
@@ -155,7 +157,13 @@ function App() {
           image: item.image
         })),
         total: getCartTotal(),
-        paymentMethod: paymentMethod.toUpperCase()
+        paymentMethod: paymentMethod.toUpperCase(),
+        shippingAddress: customerAddress || {
+          address: 'Not provided',
+          city: 'Not provided',
+          postalCode: 'Not provided',
+          country: 'India'
+        }
       };
 
       // If token exists, try to save to backend
@@ -169,10 +177,10 @@ function App() {
               price: item.price,
               image: item.image
             })),
-            shippingAddress: {
-              address: 'ShopEasy Pvt Ltd, 3rd Floor, Tech Park',
-              city: 'Hyderabad',
-              postalCode: '500081',
+            shippingAddress: customerAddress || {
+              address: 'Not provided',
+              city: 'Not provided',
+              postalCode: 'Not provided',
               country: 'India'
             },
             totalPrice: getCartTotal(),
@@ -194,6 +202,16 @@ function App() {
       setIsCartOpen(false);
       setIsReceiptOpen(true);
       setCart([]);
+      
+      // Save order to localStorage for profile
+      const savedOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
+      savedOrders.push({
+        ...orderData,
+        orderId: orderData.orderId || `ORD${Math.random().toString(36).substr(2, 9).toUpperCase()}`,
+        date: new Date().toLocaleDateString('en-IN'),
+        status: 'Processing'
+      });
+      localStorage.setItem('userOrders', JSON.stringify(savedOrders));
     } catch (error) {
       console.error('Error placing order:', error);
       throw new Error('Failed to process payment. Please try again.');
@@ -215,6 +233,14 @@ function App() {
             setIsTrackingOpen(true);
           } else {
             alert('No recent orders found. Please place an order first.');
+          }
+        }}
+        onProfileClick={() => {
+          const userStr = localStorage.getItem('user');
+          if (userStr) {
+            setIsProfileOpen(true);
+          } else {
+            alert('Please login to view your profile.');
           }
         }}
       />
@@ -257,8 +283,8 @@ function App() {
           cart={cart}
           total={getCartTotal()}
           onClose={() => setIsCheckoutOpen(false)}
-          onConfirm={async (paymentMethod) => {
-            await handleCheckout(paymentMethod);
+          onConfirm={async (paymentMethod, address) => {
+            await handleCheckout(paymentMethod, address);
           }}
         />
       )}
@@ -279,6 +305,13 @@ function App() {
         <OrderTracking
           order={orderDetails}
           onClose={() => setIsTrackingOpen(false)}
+        />
+      )}
+
+      {isProfileOpen && (
+        <Profile
+          user={JSON.parse(localStorage.getItem('user') || '{}')}
+          onClose={() => setIsProfileOpen(false)}
         />
       )}
       

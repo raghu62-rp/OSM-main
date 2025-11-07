@@ -57,6 +57,44 @@
 .payment-form {
   flex: 1;
   padding: 0.5rem 1rem;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.payment-form h4 {
+  margin: 1rem 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.address-fields {
+  margin-bottom: 1.5rem;
+}
+
+.address-fields input,
+.address-fields textarea {
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 0.6rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.address-fields textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.address-fields .row {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.address-fields .row input {
+  flex: 1;
 }
 
 .methods label {

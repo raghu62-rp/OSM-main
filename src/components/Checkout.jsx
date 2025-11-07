@@ -7,10 +7,39 @@ const Checkout = ({ cart, total, onClose, onConfirm }) => {
   const [error, setError] = useState('');
   const [card, setCard] = useState({ number: '', name: '', exp: '', cvv: '' });
   const [upiId, setUpiId] = useState('');
+  const [address, setAddress] = useState({
+    fullName: '',
+    phone: '',
+    email: '',
+    addressLine: '',
+    city: '',
+    state: '',
+    pincode: '',
+    country: 'India'
+  });
 
   const handlePay = async (e) => {
     e.preventDefault();
     setError('');
+
+    // Validate address
+    if (!address.fullName || !address.phone || !address.email || !address.addressLine || 
+        !address.city || !address.state || !address.pincode) {
+      setError('Please fill in all address details');
+      return;
+    }
+
+    // Validate phone
+    if (address.phone.length < 10) {
+      setError('Please enter a valid 10-digit phone number');
+      return;
+    }
+
+    // Validate email
+    if (!address.email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
 
     // Validation
     if (method === 'card') {
@@ -33,8 +62,8 @@ const Checkout = ({ cart, total, onClose, onConfirm }) => {
       // Simulate payment gateway delay
       await new Promise((r) => setTimeout(r, 1500));
 
-      // Call confirm with payment method info
-      await onConfirm(method);
+      // Call confirm with payment method info and address
+      await onConfirm(method, address);
     } catch (err) {
       setError(err.message || 'Payment failed. Please try again.');
       setProcessing(false);
@@ -64,6 +93,74 @@ const Checkout = ({ cart, total, onClose, onConfirm }) => {
           </div>
 
           <form className="payment-form" onSubmit={handlePay}>
+            <h4>📍 Delivery Address</h4>
+            <div className="address-fields">
+              <input 
+                type="text" 
+                placeholder="Full Name *" 
+                value={address.fullName}
+                onChange={(e) => setAddress({ ...address, fullName: e.target.value })}
+                required
+              />
+              <div className="row">
+                <input 
+                  type="tel" 
+                  placeholder="Phone Number *" 
+                  value={address.phone}
+                  onChange={(e) => setAddress({ ...address, phone: e.target.value })}
+                  maxLength="10"
+                  required
+                />
+                <input 
+                  type="email" 
+                  placeholder="Email *" 
+                  value={address.email}
+                  onChange={(e) => setAddress({ ...address, email: e.target.value })}
+                  required
+                />
+              </div>
+              <textarea 
+                placeholder="Address Line (House No., Street, Area) *" 
+                value={address.addressLine}
+                onChange={(e) => setAddress({ ...address, addressLine: e.target.value })}
+                rows="2"
+                required
+              />
+              <div className="row">
+                <input 
+                  type="text" 
+                  placeholder="City *" 
+                  value={address.city}
+                  onChange={(e) => setAddress({ ...address, city: e.target.value })}
+                  required
+                />
+                <input 
+                  type="text" 
+                  placeholder="State *" 
+                  value={address.state}
+                  onChange={(e) => setAddress({ ...address, state: e.target.value })}
+                  required
+                />
+              </div>
+              <div className="row">
+                <input 
+                  type="text" 
+                  placeholder="Pincode *" 
+                  value={address.pincode}
+                  onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
+                  maxLength="6"
+                  required
+                />
+                <input 
+                  type="text" 
+                  placeholder="Country" 
+                  value={address.country}
+                  onChange={(e) => setAddress({ ...address, country: e.target.value })}
+                  required
+                />
+              </div>
+            </div>
+
             <h4>Payment Method</h4>
             <div className="methods">
               <label>
