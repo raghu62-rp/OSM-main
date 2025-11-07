@@ -8,18 +8,18 @@ const products = [
   // Electronics
   {
     name: "Wireless Bluetooth Headphones",
-    description: "High-quality wireless headphones with noise cancellation",
+    description: "Premium wireless headphones with active noise cancellation",
     category: "Electronics",
     price: 99.99,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&h=500&fit=crop&q=80",
     countInStock: 15
   },
   {
     name: "Smartphone Case",
-    description: "Protective case for your smartphone",
+    description: "Protective case with shock absorption",
     category: "Electronics",
     price: 29.99,
-    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500&h=500&fit=crop&q=80",
     countInStock: 30
   },
   {
@@ -27,7 +27,7 @@ const products = [
     description: "Ergonomic aluminum laptop stand for better posture",
     category: "Electronics",
     price: 45.99,
-    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&h=500&fit=crop&q=80",
     countInStock: 20
   },
   {
@@ -35,7 +35,7 @@ const products = [
     description: "Ergonomic wireless mouse with precision tracking",
     category: "Electronics",
     price: 35.99,
-    image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500&h=500&fit=crop&q=80",
     countInStock: 40
   },
   {
@@ -43,7 +43,7 @@ const products = [
     description: "7-in-1 USB-C hub with HDMI and card reader",
     category: "Electronics",
     price: 55.99,
-    image: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1625948515291-69613efd103f?w=500&h=500&fit=crop&q=80",
     countInStock: 25
   },
   {
@@ -51,7 +51,7 @@ const products = [
     description: "20000mAh power bank with fast charging",
     category: "Electronics",
     price: 39.99,
-    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500&h=500&fit=crop&q=80",
     countInStock: 35
   },
   {
@@ -59,7 +59,7 @@ const products = [
     description: "Fitness tracker with heart rate monitor",
     category: "Electronics",
     price: 149.99,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&h=500&fit=crop&q=80",
     countInStock: 18
   },
   {
@@ -67,7 +67,7 @@ const products = [
     description: "Portable waterproof speaker with 12-hour battery",
     category: "Electronics",
     price: 69.99,
-    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&h=500&fit=crop&q=80",
     countInStock: 22
   },
   {
@@ -75,7 +75,7 @@ const products = [
     description: "1080p HD webcam with built-in microphone",
     category: "Electronics",
     price: 79.99,
-    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&h=500&fit=crop",
+    image: "https://images.unsplash.com/photo-1587829741301-dc798b83add3?w=500&h=500&fit=crop&q=80",
     countInStock: 15
   },
   
