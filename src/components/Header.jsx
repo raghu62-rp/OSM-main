@@ -22,16 +22,21 @@ const Header = ({ cartItemCount, onCartClick, onTrackOrderClick, onProfileClick 
     setUser(null);
   };
 
+  const handleHomeClick = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <header className="header">
       <div className="container">
         <div className="header-content">
-          <a href="#" className="logo">
+          <a href="#" className="logo" onClick={handleHomeClick}>
             🛍️ ShopEasy
           </a>
           
           <nav className="nav">
-            <a href="#" className="nav-link">Home</a>
+            <a href="#" className="nav-link" onClick={handleHomeClick}>Home</a>
             <a href="#products" className="nav-link">Products</a>
             <a href="#about" className="nav-link">About</a>
             <a href="#contact" className="nav-link">Contact</a>
