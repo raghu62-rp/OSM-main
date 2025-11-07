@@ -20,7 +20,8 @@ connectDB(process.env.MONGO_URI);
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
-  'https://osm-frontend.onrender.com', // Update with your Render frontend URL
+  'https://osm-frontend.onrender.com',
+  'https://osm-frontend-r7zg.onrender.com',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
