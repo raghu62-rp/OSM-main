@@ -1,0 +1,269 @@
+.tracking-modal {
+  background: white;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+.tracking-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 2px solid #f0f0f0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.tracking-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.tracking-content {
+  padding: 1.5rem;
+}
+
+.order-info {
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.order-info h3 {
+  margin: 0 0 0.5rem 0;
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.order-info p {
+  margin: 0.3rem 0;
+  color: #555;
+}
+
+.delivery-address {
+  background: #fff9e6;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid #ffc107;
+}
+
+.delivery-address h4 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.delivery-address p {
+  margin: 0.2rem 0;
+  color: #555;
+}
+
+.tracking-timeline {
+  margin: 2rem 0;
+}
+
+.tracking-timeline h4 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.tracking-step {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  position: relative;
+  padding-left: 3rem;
+}
+
+.tracking-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 20px;
+  top: 40px;
+  width: 2px;
+  height: calc(100% + 1rem);
+  background: #e0e0e0;
+}
+
+.tracking-step.completed:not(:last-child)::before {
+  background: #4caf50;
+}
+
+.step-indicator {
+  position: absolute;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: #e0e0e0;
+  color: #888;
+}
+
+.tracking-step.completed .step-indicator {
+  background: #4caf50;
+  color: white;
+}
+
+.step-details {
+  flex: 1;
+}
+
+.step-status {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.3rem;
+  color: #333;
+}
+
+.tracking-step.completed .step-status {
+  color: #4caf50;
+}
+
+.step-date {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.ordered-items {
+  margin: 2rem 0;
+  background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.ordered-items h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+}
+
+.tracking-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: white;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.tracking-item .item-image {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 1rem;
+}
+
+.tracking-item .item-details {
+  flex: 1;
+}
+
+.tracking-item .item-name {
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0.2rem;
+}
+
+.tracking-item .item-qty {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.tracking-item .item-total {
+  font-weight: 600;
+  color: #667eea;
+  font-size: 1rem;
+}
+
+.estimated-delivery {
+  margin: 2rem 0;
+}
+
+.delivery-box {
+  background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);
+  padding: 1.5rem;
+  border-radius: 8px;
+  text-align: center;
+  border: 2px dashed #667eea;
+}
+
+.delivery-box h4 {
+  margin: 0 0 0.5rem 0;
+  color: #667eea;
+  font-size: 1.2rem;
+}
+
+.delivery-date {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #764ba2;
+  margin: 0.5rem 0;
+}
+
+.delivery-note {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0.5rem 0 0 0;
+}
+
+.tracking-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 2px solid #f0f0f0;
+  margin-top: 1rem;
+}
+
+.btn-secondary {
+  padding: 0.75rem 2rem;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .tracking-modal {
+    width: 95%;
+    max-height: 95vh;
+  }
+
+  .tracking-header h2 {
+    font-size: 1.2rem;
+  }
+
+  .tracking-content {
+    padding: 1rem;
+  }
+
+  .tracking-step {
+    padding-left: 2.5rem;
+  }
+
+  .step-indicator {
+    width: 35px;
+    height: 35px;
+    font-size: 0.9rem;
+  }
+}

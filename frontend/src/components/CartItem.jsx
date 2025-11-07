@@ -4,12 +4,12 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
   return (
     <div className="cart-item">
       <div className="cart-item-image">
-        <span style={{ fontSize: '2rem' }}>{item.image}</span>
+        <img src={item.image} alt={item.name} style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px' }} />
       </div>
       
       <div className="cart-item-info">
         <div className="cart-item-title">{item.name}</div>
-        <div className="cart-item-price">${item.price}</div>
+        <div className="cart-item-price">₹{item.price}</div>
         
         <div className="quantity-controls">
           <button 
@@ -36,7 +36,7 @@ const CartItem = ({ item, onUpdateQuantity, onRemove }) => {
       </div>
       
       <div className="cart-item-total">
-        <strong>${(item.price * item.quantity).toFixed(2)}</strong>
+        <strong>₹{(item.price * item.quantity).toFixed(2)}</strong>
       </div>
     </div>
   );

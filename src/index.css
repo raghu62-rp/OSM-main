@@ -14,6 +14,43 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Clean body background */
+body {
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main content area with background image */
+main {
+  background-image: url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2000&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+}
+
+main::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.85);
+  z-index: 0;
+}
+
+main > * {
+  position: relative;
+  z-index: 1;
+}
+
 a {
   font-weight: 500;
   color: #667eea; /* softer blue for light background */
@@ -25,14 +62,11 @@ a:hover {
 
 html, body, #root {
   height: 100%;
+  width: 100%;
 }
 
 body {
   margin: 0;
-  display: flex;
-  /* center the app both horizontally and vertically */
-  justify-content: center;
-  align-items: center;
   padding: 0;
   min-width: 320px;
   min-height: 100vh;

@@ -185,6 +185,5 @@ export const categories = [
   'all',
   'Electronics',
   'Clothing',
-  'Home',
   'Sports'
 ];

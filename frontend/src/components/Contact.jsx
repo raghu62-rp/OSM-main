@@ -13,8 +13,20 @@ const Contact = () => {
         <div style={{ maxWidth: 420 }}>
           <h3>Customer Support</h3>
           <p>
-            Email: support@shopeasy.example
-            <br />Phone: +1 (555) 123-4567
+            <strong>Email:</strong> 231fa04a10@gmail.com
+            <br />
+            <strong>Phone:</strong> +91 9398593918
+            <br />
+            <br />
+            <strong>Address:</strong>
+            <br />
+            ShopEasy India Pvt Ltd
+            <br />
+            142, MG Road, Koramangala
+            <br />
+            Bengaluru, Karnataka - 560034
+            <br />
+            India
           </p>
         </div>
 

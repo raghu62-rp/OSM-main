@@ -44,7 +44,7 @@ const CartModal = ({
               
                 <div className="cart-total">
                 <div className="total-amount">
-                  Total: ${total.toFixed(2)}
+                  Total: ₹{total.toFixed(2)}
                 </div>
                 <button className="checkout-btn" onClick={onCheckout}>
                   Proceed to Checkout 💳

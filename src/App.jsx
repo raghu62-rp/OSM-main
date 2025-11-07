@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from './components/Header.jsx';
 import SearchBar from "./components/SearchBar.jsx";
-
+import './components/Login.css';
 import CategoryFilter from './components/CategoryFilter.jsx';
 import ProductGrid from './components/ProductGrid.jsx';
 import About from './components/About.jsx';
 import Contact from './components/Contact.jsx';
 import CartModal from './components/CartModal.jsx';
+import Checkout from './components/Checkout.jsx';
+import Receipt from './components/Receipt.jsx';
+import OrderTracking from './components/OrderTracking.jsx';
 import Footer from './components/Footer.jsx';
+import { API_BASE_URL } from './config.js';
 import { mockProducts } from './mockData.jsx';
 
 function App() {
@@ -18,17 +23,54 @@ function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+  const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [apiHealthy, setApiHealthy] = useState(null);
 
-  // Load products on component mount
+  // Load products from API
   useEffect(() => {
-    setIsLoading(true);
-    // Simulate API loading
-    setTimeout(() => {
-      setProducts(mockProducts);
-      setFilteredProducts(mockProducts);
-      setIsLoading(false);
-    }, 1000);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      try {
+        const response = await axios.get(`${API_BASE_URL}/products`);
+        setProducts(response.data);
+        setFilteredProducts(response.data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+        // Fallback to mock data so UI remains usable when backend is down
+        setProducts(mockProducts);
+        setFilteredProducts(mockProducts);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchProducts();
+    }, []);
+
+  // Periodically check backend health so UI can indicate if API is reachable
+  useEffect(() => {
+    let mounted = true;
+    const checkHealth = async () => {
+      try {
+        const res = await fetch(`${API_BASE_URL}/health`, { cache: 'no-store' });
+        if (!mounted) return;
+        setApiHealthy(res.ok);
+      } catch (err) {
+        if (!mounted) return;
+        setApiHealthy(false);
+      }
+    };
+
+    // initial check and periodic polling every 30s
+    checkHealth();
+    const id = setInterval(checkHealth, 30000);
+    return () => { mounted = false; clearInterval(id); };
   }, []);
+
+    
 
   // Filter products based on search and category
   useEffect(() => {
@@ -99,17 +141,83 @@ function App() {
   };
 
   // Handle checkout
-  const handleCheckout = () => {
-    alert(`Order placed successfully! Total: $${getCartTotal().toFixed(2)}`);
-    setCart([]);
-    setIsCartOpen(false);
+  const handleCheckout = async (paymentMethod = 'UPI') => {
+    try {
+      // Check if we need authentication
+      const token = localStorage.getItem('token');
+      
+      // Prepare order details for receipt
+      const orderData = {
+        items: cart.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+          image: item.image
+        })),
+        total: getCartTotal(),
+        paymentMethod: paymentMethod.toUpperCase(),
+        shippingAddress: {
+          address: 'ShopEasy Pvt Ltd, 3rd Floor, Tech Park',
+          city: 'Hyderabad',
+          postalCode: '500081',
+          country: 'India'
+        }
+      };
+
+      // If token exists, try to save to backend
+      if (token) {
+        try {
+          const backendOrderData = {
+            orderItems: cart.map(item => ({
+              product: item.id,
+              name: item.name,
+              qty: item.quantity,
+              price: item.price,
+              image: item.image
+            })),
+            shippingAddress: orderData.shippingAddress,
+            totalPrice: getCartTotal(),
+            paymentMethod: paymentMethod
+          };
+
+          await axios.post(`${API_BASE_URL}/orders`, backendOrderData, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        } catch (backendError) {
+          console.error('Backend order save failed:', backendError);
+          // Continue anyway to show receipt
+        }
+      }
+
+      // Show receipt
+      setOrderDetails(orderData);
+      setIsCheckoutOpen(false);
+      setIsCartOpen(false);
+      setIsReceiptOpen(true);
+      setCart([]);
+    } catch (error) {
+      console.error('Error placing order:', error);
+      throw new Error('Failed to process payment. Please try again.');
+    }
   };
 
   return (
     <div className="App">
+      {apiHealthy === false && (
+        <div style={{background:'#ffe6e6', color:'#8b0000', padding:'10px', textAlign:'center'}}>
+          Backend API not reachable — the app may be running in mock mode.
+        </div>
+      )}
       <Header 
         cartItemCount={getCartItemCount()}
         onCartClick={() => setIsCartOpen(true)}
+        onTrackOrderClick={() => {
+          if (orderDetails) {
+            setIsTrackingOpen(true);
+          } else {
+            alert('No recent orders found. Please place an order first.');
+          }
+        }}
       />
       
       <SearchBar 
@@ -135,13 +243,43 @@ function App() {
       
       {isCartOpen && (
         <CartModal
+            cart={cart}
+            isOpen={isCartOpen}
+            onClose={() => setIsCartOpen(false)}
+            onUpdateQuantity={updateQuantity}
+            onRemoveItem={removeFromCart}
+            onCheckout={() => setIsCheckoutOpen(true)}
+            total={getCartTotal()}
+        />
+      )}
+
+      {isCheckoutOpen && (
+        <Checkout
           cart={cart}
-          isOpen={isCartOpen}
-          onClose={() => setIsCartOpen(false)}
-          onUpdateQuantity={updateQuantity}
-          onRemoveItem={removeFromCart}
-          onCheckout={handleCheckout}
           total={getCartTotal()}
+          onClose={() => setIsCheckoutOpen(false)}
+          onConfirm={async (paymentMethod) => {
+            await handleCheckout(paymentMethod);
+          }}
+        />
+      )}
+
+      {isReceiptOpen && orderDetails && (
+        <Receipt
+          orderData={orderDetails}
+          onClose={() => setIsReceiptOpen(false)}
+          onTrackOrder={(order) => {
+            setIsReceiptOpen(false);
+            setIsTrackingOpen(true);
+            setOrderDetails(order);
+          }}
+        />
+      )}
+
+      {isTrackingOpen && orderDetails && (
+        <OrderTracking
+          order={orderDetails}
+          onClose={() => setIsTrackingOpen(false)}
         />
       )}
       

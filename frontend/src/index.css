@@ -188,12 +188,15 @@ button:focus-visible {
 }
 
 .product-image {
-  font-size: 4rem;
-  text-align: center;
-  padding: 2rem 0;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 8px;
   margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .product-category {

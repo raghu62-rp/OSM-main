@@ -9,6 +9,8 @@ import About from './components/About.jsx';
 import Contact from './components/Contact.jsx';
 import CartModal from './components/CartModal.jsx';
 import Checkout from './components/Checkout.jsx';
+import Receipt from './components/Receipt.jsx';
+import OrderTracking from './components/OrderTracking.jsx';
 import Footer from './components/Footer.jsx';
 import { API_BASE_URL } from './config.js';
 import { mockProducts } from './mockData.jsx';
@@ -23,6 +25,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
+  const [isReceiptOpen, setIsReceiptOpen] = useState(false);
+  const [isTrackingOpen, setIsTrackingOpen] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
   const [apiHealthy, setApiHealthy] = useState(null);
 
   // Load products from API
@@ -136,42 +141,62 @@ function App() {
   };
 
   // Handle checkout
-  const handleCheckout = async () => {
+  const handleCheckout = async (paymentMethod = 'UPI') => {
     try {
-      // Get token from localStorage - you'll need to implement login/register first
+      // Check if we need authentication
       const token = localStorage.getItem('token');
-      if (!token) {
-        alert('Please login to checkout');
-        return;
-      }
-
+      
+      // Prepare order details for receipt
       const orderData = {
-        orderItems: cart.map(item => ({
-          product: item.id,
+        items: cart.map(item => ({
           name: item.name,
-          qty: item.quantity,
+          quantity: item.quantity,
           price: item.price,
           image: item.image
         })),
-        shippingAddress: {
-          address: '123 Test St',
-          city: 'Test City',
-          postalCode: '12345',
-          country: 'Test Country'
-        },
-        totalPrice: getCartTotal()
+        total: getCartTotal(),
+        paymentMethod: paymentMethod.toUpperCase()
       };
 
-      await axios.post(`${API_BASE_URL}/orders`, orderData, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // If token exists, try to save to backend
+      if (token) {
+        try {
+          const backendOrderData = {
+            orderItems: cart.map(item => ({
+              product: item.id,
+              name: item.name,
+              qty: item.quantity,
+              price: item.price,
+              image: item.image
+            })),
+            shippingAddress: {
+              address: 'ShopEasy Pvt Ltd, 3rd Floor, Tech Park',
+              city: 'Hyderabad',
+              postalCode: '500081',
+              country: 'India'
+            },
+            totalPrice: getCartTotal(),
+            paymentMethod: paymentMethod
+          };
 
-      alert(`Order placed successfully! Total: $${getCartTotal().toFixed(2)}`);
-      setCart([]);
+          await axios.post(`${API_BASE_URL}/orders`, backendOrderData, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+        } catch (backendError) {
+          console.error('Backend order save failed:', backendError);
+          // Continue anyway to show receipt
+        }
+      }
+
+      // Show receipt
+      setOrderDetails(orderData);
+      setIsCheckoutOpen(false);
       setIsCartOpen(false);
+      setIsReceiptOpen(true);
+      setCart([]);
     } catch (error) {
       console.error('Error placing order:', error);
-      alert('Error placing order. Please try again.');
+      throw new Error('Failed to process payment. Please try again.');
     }
   };
 
@@ -185,6 +210,13 @@ function App() {
       <Header 
         cartItemCount={getCartItemCount()}
         onCartClick={() => setIsCartOpen(true)}
+        onTrackOrderClick={() => {
+          if (orderDetails) {
+            setIsTrackingOpen(true);
+          } else {
+            alert('No recent orders found. Please place an order first.');
+          }
+        }}
       />
       
       <SearchBar 
@@ -225,12 +257,28 @@ function App() {
           cart={cart}
           total={getCartTotal()}
           onClose={() => setIsCheckoutOpen(false)}
-          onConfirm={async () => {
-            // call existing handleCheckout to create order
-            await handleCheckout();
-            // close checkout modal after order
-            setIsCheckoutOpen(false);
+          onConfirm={async (paymentMethod) => {
+            await handleCheckout(paymentMethod);
           }}
+        />
+      )}
+
+      {isReceiptOpen && orderDetails && (
+        <Receipt
+          orderData={orderDetails}
+          onClose={() => setIsReceiptOpen(false)}
+          onTrackOrder={(order) => {
+            setIsReceiptOpen(false);
+            setIsTrackingOpen(true);
+            setOrderDetails(order);
+          }}
+        />
+      )}
+
+      {isTrackingOpen && orderDetails && (
+        <OrderTracking
+          order={orderDetails}
+          onClose={() => setIsTrackingOpen(false)}
         />
       )}
       

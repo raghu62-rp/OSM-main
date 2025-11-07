@@ -22,7 +22,7 @@ const ProductCard = ({ product, onAddToCart }) => {
   return (
     <div className="product-card">
       <div className="product-image">
-        <span style={{ fontSize: '4rem' }}>{product.image}</span>
+        <img src={product.image} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
       </div>
       
       <div className="product-info">
@@ -32,7 +32,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           <span className="stars">{renderStars(product.rating)}</span>
           <span>({product.rating})</span>
         </div>
-        <div className="product-price">${product.price}</div>
+        <div className="product-price">₹{product.price}</div>
         <button 
           className="add-to-cart-btn"
           onClick={() => onAddToCart(product)}
