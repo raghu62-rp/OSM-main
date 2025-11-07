@@ -25,14 +25,11 @@ a:hover {
 
 html, body, #root {
   height: 100%;
+  width: 100%;
 }
 
 body {
   margin: 0;
-  display: flex;
-  /* center the app both horizontally and vertically */
-  justify-content: center;
-  align-items: center;
   padding: 0;
   min-width: 320px;
   min-height: 100vh;
@@ -82,8 +79,211 @@ button:focus-visible {
 /* Utility centered container used by the app's main content */
 .centered-container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem 2rem;
   box-sizing: border-box;
+}
+
+/* Products Section */
+.products-section {
+  width: 100%;
+  max-width: 1400px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.products-section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #213547;
+}
+
+/* Product Grid - Responsive */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .products-section {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Product Card */
+.product-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102,126,234,0.15);
+}
+
+.product-image {
+  font-size: 4rem;
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.product-category {
+  font-size: 0.85rem;
+  color: #667eea;
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 0.5rem;
+}
+
+.product-card h3 {
+  font-size: 1.25rem;
+  margin: 0.5rem 0;
+  color: #213547;
+  line-height: 1.3;
+}
+
+.product-description {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  flex-grow: 1;
+}
+
+.product-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #667eea;
+  margin: 1rem 0;
+}
+
+.product-card button {
+  width: 100%;
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.product-card button:hover {
+  background: #5568d9;
+  transform: none;
+}
+
+/* Category Filter */
+.category-filter {
+  width: 100%;
+  background: white;
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+}
+
+.category-filter .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.category-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.category-btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid #e9ecef;
+  background: white;
+  color: #6c757d;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: capitalize;
+}
+
+.category-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102,126,234,0.2);
+}
+
+.category-btn.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+/* Loading State */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  color: #6c757d;
+}
+
+.spinner {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #667eea;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Search Bar */
+.search-bar {
+  width: 100%;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid #e9ecef;
+  border-radius: 50px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-bar input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
 }
