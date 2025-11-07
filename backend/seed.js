@@ -8,6 +8,7 @@ const products = [
   {
     name: "Wireless Bluetooth Headphones",
     description: "High-quality wireless headphones with noise cancellation",
+    category: "Electronics",
     price: 99.99,
     image: "🎧",
     countInStock: 15
@@ -15,6 +16,7 @@ const products = [
   {
     name: "Smartphone Case",
     description: "Protective case for your smartphone",
+    category: "Electronics",
     price: 29.99,
     image: "📱",
     countInStock: 30
@@ -22,6 +24,7 @@ const products = [
   {
     name: "Cotton T-Shirt",
     description: "Comfortable 100% cotton t-shirt",
+    category: "Clothing",
     price: 19.99,
     image: "👕",
     countInStock: 25
@@ -29,6 +32,7 @@ const products = [
   {
     name: "Running Shoes",
     description: "Lightweight running shoes for daily training",
+    category: "Clothing",
     price: 89.99,
     image: "👟",
     countInStock: 10
@@ -36,6 +40,7 @@ const products = [
   {
     name: "Coffee Maker",
     description: "Automatic drip coffee maker with timer",
+    category: "Home",
     price: 129.99,
     image: "☕",
     countInStock: 8
